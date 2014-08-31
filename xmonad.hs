@@ -24,10 +24,11 @@ main = do
   xmonad $ defaultConfig
     { modMask = mod4Mask
     , terminal = "urxvt"
+    , borderWidth = 2
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
       , ppTitle = xmobarColor "blue" "" . shorten 50
-	  , ppHiddenNoWindows = xmobarColor "grey" ""
+	  , ppHiddenNoWindows = xmobarColor "" ""
       , ppLayout = const ""
       } 
     , workspaces = myWorkspaces
