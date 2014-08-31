@@ -1,17 +1,16 @@
 Config { 
 
    -- appearance
-     font =         "-*-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
+     font =         "xft:Inconsolata-g:size=9:bold:antialias=true"
    , bgColor =      "black"
    , fgColor =      "#646464"
    , position =     Static { xpos = 0 , ypos = 0, width = 1600, height = 15 }
-   , border =       BottomB
    , borderColor =  "#646464"
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%StdinReader% | %battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %RJTT% | %date%"
+   , template = "%StdinReader% }{ %battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %RJTT% | %date%"
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
