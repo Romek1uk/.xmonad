@@ -10,7 +10,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 -- Define amount and names of workspaces
-myWorkspaces = ["main","dev","web","4","5","6", "7", "8", "9"]
+myWorkspaces = ["main","dev","web","mail","5","6", "7", "8", "9"]
 
 --------------------------------------------------------------------------------------------
 -- MAIN                                                                                   --

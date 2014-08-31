@@ -9,8 +9,9 @@ Config { font = "-*-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
                     , Run Date "%Y-%m-%d %H:%M:%S" "date" 10
                     , Run MPDInfo
                     , Run StdinReader
+                    , Run Battery [ "--template" , "Batt: <acstatus>", "--Low" , "10", "--High", "80", "--low", "darkred", "--normal", "darkorange", "--high", "darkgreen", "--", "-o" , "<left>% (<timeleft>)", "-O"	, "<fc=#dAA520>Charging</fc>", "-i"	, "<fc=#006000>Charged</fc>"] 50
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "<fc=white>%date%</fc> | %StdinReader% | %cpu% | %memory% %swap% | %eth0% | %mpdinfo%"
+       , template = "<fc=white>%date%</fc> | %StdinReader% | %battery% | %cpu% | %memory% %swap% | %eth0% | %mpdinfo%"
        }
