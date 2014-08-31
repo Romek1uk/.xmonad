@@ -1,3 +1,4 @@
+-- Modules
 import XMonad
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
@@ -9,12 +10,16 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 -- Define amount and names of workspaces
-myWorkspaces = ["1:main","2:chat","3:web","4","5","6", "7", "8", "9", "0"]
+myWorkspaces = ["main","dev","web","4","5","6", "7", "8", "9"]
 
+--------------------------------------------------------------------------------------------
+-- MAIN                                                                                   --
+--------------------------------------------------------------------------------------------
 main = do
   xmproc <- spawnPipe "/usr/bin/xmobar /home/romek/.xmonad/xmobarrc"
   xmonad $ defaultConfig
     { modMask = mod4Mask
+    , terminal = "xterm"
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
       , ppTitle = xmobarColor "blue" "" . shorten 50
