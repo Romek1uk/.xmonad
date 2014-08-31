@@ -12,6 +12,10 @@ import System.IO
 -- Define amount and names of workspaces
 myWorkspaces = ["main","dev","web","mail","5","6", "7", "8", "9"]
 
+myLayout = tiled ||| Full
+  where 
+    spacing 3
+
 --------------------------------------------------------------------------------------------
 -- MAIN                                                                                   --
 --------------------------------------------------------------------------------------------
@@ -19,7 +23,7 @@ main = do
   xmproc <- spawnPipe "/usr/bin/xmobar /home/romek/.xmonad/xmobarrc"
   xmonad $ defaultConfig
     { modMask = mod4Mask
-    , terminal = "xterm"
+    , terminal = "urxvt"
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
       , ppTitle = xmobarColor "blue" "" . shorten 50
