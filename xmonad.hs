@@ -32,7 +32,7 @@ main = do
       , ppLayout = const ""
       } 
     , workspaces = myWorkspaces
-    , layoutHook = avoidStruts $ layoutHook defaultConfig
+    , layoutHook = avoidStruts $ myLayout $ layoutHook defaultConfig
     , manageHook = manageDocks  <+> manageHook defaultConfig
     } `additionalKeys`
     [((0, xK_Print), spawn "scrot ~/screenshots/%d-%m-%Y-%T-screenshot.png")
