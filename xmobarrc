@@ -4,7 +4,7 @@ Config {
      font =         "xft:Inconsolata-g:size=11:bold:antialias=true"
    , bgColor =      "black"
    , fgColor =      "#646464"
-   , position =     Static { xpos = 0 , ypos = 0, width = 1600, height = 15 }
+   , position =     Static { xpos = 0 , ypos = 0, width = 1920, height = 15 }
    , borderColor =  "#646464"
 
    -- layout
