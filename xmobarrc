@@ -1,17 +1,17 @@
 Config { 
 
    -- appearance
-     font =         "xft:Bitstream Vera Sans Mono:size=9:bold:antialias=true"
+     font =         "-*-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
    , bgColor =      "black"
    , fgColor =      "#646464"
-   , position =     Top
+   , position =     Static { xpos = 0 , ypos = 0, width = 1600, height = 15 }
    , border =       BottomB
    , borderColor =  "#646464"
 
    -- layout
    , sepChar =  "%"   -- delineator between plugin names and straight text
    , alignSep = "}{"  -- separator between left-right alignment
-   , template = "%battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %RJTT% | %date%"
+   , template = "%StdinReader% | %battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %RJTT% | %date%"
 
    -- general behavior
    , lowerOnStart =     True    -- send to bottom of window stack on start
@@ -40,6 +40,9 @@ Config {
         -- weather monitor
         [ Run Weather "RJTT" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
                              ] 36000
+                        
+        -- For inputs from xmonad                        
+        , Run StdinReader
 
         -- network activity monitor (dynamic interface resolution)
         , Run DynNetwork     [ "--template" , "<dev>: <tx>kB/s|<rx>kB/s"
