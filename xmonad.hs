@@ -18,6 +18,7 @@ main = do
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
       , ppTitle = xmobarColor "blue" "" . shorten 50
+	  , ppHiddenNoWindows = xmobarColor "grey" ""
       , ppLayout = const ""
       } 
     , workspaces = myWorkspaces
