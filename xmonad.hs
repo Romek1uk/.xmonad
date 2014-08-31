@@ -9,7 +9,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
 
 -- Define amount and names of workspaces
-myWorkspaces = ["1:main","2:chat","3:web","4","5","6"]
+myWorkspaces = ["1:main","2:chat","3:web","4","5","6", "7", "8", "9", "0"]
 
 main = do
   xmproc <- spawnPipe "/usr/bin/xmobar /home/romek/.xmonad/xmobarrc"
