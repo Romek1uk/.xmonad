@@ -1,58 +1,95 @@
 -- Modules
 import XMonad
+import XMonad.Prompt
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
+import XMonad.Layout.Accordion
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Util.Run
 import XMonad.Actions.FloatKeys
+import XMonad.Actions.DynamicWorkspaces
+import XMonad.Actions.CycleWS
 import XMonad.Util.EZConfig(additionalKeys)
 import Graphics.X11.ExtraTypes.XF86
 import System.IO
 
 --------------------------------------------------------------------------------------------
--- Workspaces 						 				  --
+-- Colours                                                                                -
 --------------------------------------------------------------------------------------------
-myWorkspaces = ["1:main","2:dev","3:social","4","5","6","7","8:media","9:mail"]
+-- Borders
+disabledBorderColor = "#284F51"
+enabledBorderColor  = "orange"
 
+-- Xmobar
+currentForegroundColor = "black"
+currentBackgroundColor = enabledBorderColor 
+hiddenForegroundColor  = "orange"
+hiddenBackgroundColor  = "black"
+emptyForegroundColor   = "#777777"
+emptyBackgroundColor   = ""
+titleForegroundColor   = "white" -- "#26C6C6"
+titleBackgroundColor   = ""
+
+-------------------------------------------------------------------------------------------- 
+---- Workspaces 						 				                                                      --
+-------------------------------------------------------------------------------------------- 
+myWorkspaces = map (wrap " " " ")[ "1:main","2:soc","3:dev","4:diss","5","6","7","8","9:mail"]
+mailWorkspace = " 9:mail "
+
+--------------------------------------------------------------------------------------------
+-- Layouts                                                                                --
+--------------------------------------------------------------------------------------------
+myLayouts = onWorkspace "9:mail" mailLayout $ tiled ||| Full ||| Accordion  
+  where
+    tiled = smartSpacing 2 $ smartBorders $ Tall nmaster delta ratio
+    nmaster = 1 -- Number of windows in master pane
+    ratio = 1/2 -- Proportion of screen occupied by master pane
+    delta = 3/100 -- Percent of screen to increment by when resizing panes    
+    mailLayout = noBorders $ Full
 
 --------------------------------------------------------------------------------------------
 -- Keybindings                                                                            --
 --------------------------------------------------------------------------------------------
-moveAmount = 15
+shiftAmount = 15 -- How much a window moves, in pxels
 
 myKeys =
     [((0, xK_Print), spawn "scrot ~/screenshots/%d-%m-%Y-%T-screenshot.png")
-    ,((mod4Mask, xK_w), spawn "google-chrome-stable &")
-    ,((mod4Mask, xK_s), spawn "dmenu_run -nb black -fn xft:inconsolata-g:size=11:bold:antialias=true &")
+    ,((mod4Mask, xK_w), spawn "google-chrome-stable")
+    ,((mod4Mask, xK_p), spawn "dmenu_run -nb black")
     ,((mod4Mask, xK_b), sendMessage ToggleStruts)
     ,((0, xF86XK_MonBrightnessUp), spawn "xbacklight +20")
     ,((0, xF86XK_MonBrightnessDown), spawn "xbacklight -20")
-    ,((mod4Mask, xK_l), spawn "i3lock-wrapper")
+    ,((mod4Mask .|. controlMask, xK_l), spawn "i3lock-wrapper")
+    ,((0, xF86XK_AudioLowerVolume), spawn "amixer -c 0 set Master 5-")
+    ,((0, xF86XK_AudioRaiseVolume), spawn "amixer -c 0 set Master 5+")
+    ,((0, xF86XK_AudioMute), spawn "amixer -c 0 set Master toggle")
 
     -- Moving dialog windows with start+shift+arrows
-    ,((mod4Mask .|. shiftMask, xK_Up), withFocused (keysMoveWindow (0, -moveAmount)))
-    ,((mod4Mask .|. shiftMask, xK_Down), withFocused (keysMoveWindow (0, moveAmount)))
-    ,((mod4Mask .|. shiftMask, xK_Left), withFocused (keysMoveWindow (-moveAmount, 0)))
-    ,((mod4Mask .|. shiftMask, xK_Right), withFocused (keysMoveWindow (moveAmount, 0)))
+    ,((mod4Mask .|. controlMask, xK_Up), withFocused (keysMoveWindow (0, -shiftAmount)))
+    ,((mod4Mask .|. controlMask, xK_Down), withFocused (keysMoveWindow (0, shiftAmount)))
+    ,((mod4Mask .|. controlMask, xK_Left), withFocused (keysMoveWindow (-shiftAmount, 0)))
+    ,((mod4Mask .|. controlMask, xK_Right), withFocused (keysMoveWindow (shiftAmount, 0)))
+    
+    -- Moving workspaces with left/right arrow keys
+    ,((mod4Mask, xK_Right), nextWS)
+    ,((mod4Mask, xK_Left), prevWS)
+    ,((mod4Mask .|. shiftMask, xK_Right), shiftToNext >> nextWS)
+    ,((mod4Mask .|. shiftMask, xK_Left), shiftToPrev >> prevWS)
     ]
 
 --------------------------------------------------------------------------------------------
 -- Hooks                                                                                  --
 --------------------------------------------------------------------------------------------
 myManageHook = composeAll
-  [className =? "Chrome" --> doShift "3:web"
-  ,className =? "Chromiumi Browser" --> doShift "3:web"
-  ,className =? "Google-chrome" --> doShift "3:web"
-  ,className =? "feh" --> doFloat
-  ,className =? "Thunderbird" --> doShift "9:mail"
-  ,className =? "Vlc" --> doShift "8:media"
+  [className =? "feh" --> doFloat
+  ,className =? "Thunderbird" --> doShift mailWorkspace
+  -- ,className =? "Vlc" --> doShift mediaWorkspace
   ,isFullscreen --> doFullFloat
   ,isDialog --> doFloat
   ]
-
 
 --------------------------------------------------------------------------------------------
 -- MAIN                                                                                   --
@@ -63,15 +100,19 @@ main = do
   xmonad $ defaultConfig
     { modMask = mod4Mask
     , terminal = "urxvt"
-    , borderWidth = 3 
+    , borderWidth = 4 
+    , normalBorderColor = disabledBorderColor
+    , focusedBorderColor = enabledBorderColor
     , focusFollowsMouse = False
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
-      , ppTitle = xmobarColor "blue" "" . shorten 100
-	  , ppHiddenNoWindows = xmobarColor "grey" ""
+      , ppTitle = xmobarColor titleForegroundColor titleBackgroundColor . shorten 150
+	    , ppHiddenNoWindows = xmobarColor emptyForegroundColor emptyBackgroundColor
       , ppLayout = const ""
+      , ppHidden = xmobarColor hiddenForegroundColor hiddenBackgroundColor
+      , ppCurrent = xmobarColor currentForegroundColor currentBackgroundColor
       } 
     , workspaces = myWorkspaces
-    , layoutHook = avoidStruts $ layoutHook defaultConfig
+    , layoutHook = avoidStruts $ myLayouts
     , manageHook = manageDocks <+> myManageHook  <+> manageHook defaultConfig
     } `additionalKeys` myKeys
