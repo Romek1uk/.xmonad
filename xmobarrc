@@ -96,7 +96,7 @@ Config {
 
         -- time and date indicator 
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
-        , Run Date           "<fc=#ABABAB>%a %e %b %Y %T</fc>" "date" 10
+        , Run Date           "<fc=grey>%a %e %b %Y</fc> <fc=white>%T</fc>" "date" 10
 
         , Run Com "/home/romek/.xmonad/scripts/volume.sh" [] "volume" 1 
 

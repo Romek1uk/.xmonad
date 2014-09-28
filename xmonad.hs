@@ -1,7 +1,10 @@
+--------------------------------------------------------------------------------------------
 -- Modules
+--------------------------------------------------------------------------------------------
 import XMonad
 import XMonad.Prompt
 import XMonad.Layout.Spacing
+import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Accordion
@@ -42,9 +45,14 @@ mailWorkspace = " 9:mail "
 --------------------------------------------------------------------------------------------
 -- Layouts                                                                                --
 --------------------------------------------------------------------------------------------
-myLayouts = onWorkspace "9:mail" mailLayout $ tiled ||| Full ||| Accordion  
+spacingAmount = 1
+
+myLayouts = onWorkspace mailWorkspace mailLayout $ tiled ||| full ||| accordion ||| grid 
   where
-    tiled = smartSpacing 2 $ smartBorders $ Tall nmaster delta ratio
+    tiled = smartSpacing spacingAmount $ smartBorders $ Tall nmaster delta ratio
+    full = smartBorders $ Full
+    accordion = smartSpacing spacingAmount $ smartBorders $ Accordion
+    grid = smartSpacing spacingAmount $ smartBorders $ Grid
     nmaster = 1 -- Number of windows in master pane
     ratio = 1/2 -- Proportion of screen occupied by master pane
     delta = 3/100 -- Percent of screen to increment by when resizing panes    
@@ -58,11 +66,11 @@ shiftAmount = 15 -- How much a window moves, in pxels
 myKeys =
     [((0, xK_Print), spawn "scrot ~/screenshots/%d-%m-%Y-%T-screenshot.png")
     ,((mod4Mask, xK_w), spawn "google-chrome-stable")
-    ,((mod4Mask, xK_p), spawn "dmenu_run -nb black")
+    ,((mod4Mask, xK_p), spawn "dmenu_extended_run -nb black")
     ,((mod4Mask, xK_b), sendMessage ToggleStruts)
     ,((0, xF86XK_MonBrightnessUp), spawn "xbacklight +20")
     ,((0, xF86XK_MonBrightnessDown), spawn "xbacklight -20")
-    ,((mod4Mask .|. controlMask, xK_l), spawn "i3lock-wrapper")
+    ,((mod4Mask .|. controlMask, xK_l), spawn "slimlock")
     ,((0, xF86XK_AudioLowerVolume), spawn "amixer -c 0 set Master 5-")
     ,((0, xF86XK_AudioRaiseVolume), spawn "amixer -c 0 set Master 5+")
     ,((0, xF86XK_AudioMute), spawn "amixer -c 0 set Master toggle")
