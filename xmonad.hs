@@ -45,13 +45,14 @@ mailWorkspace = " 9:mail "
 --------------------------------------------------------------------------------------------
 -- Layouts                                                                                --
 --------------------------------------------------------------------------------------------
-spacingAmount = 1
+spacingAmount = 15
+spacingAmountAccordion = 5
 
 myLayouts = onWorkspace mailWorkspace mailLayout $ tiled ||| full ||| accordion ||| grid 
   where
     tiled = smartSpacing spacingAmount $ smartBorders $ Tall nmaster delta ratio
     full = smartBorders $ Full
-    accordion = smartSpacing spacingAmount $ smartBorders $ Accordion
+    accordion = smartSpacing spacingAmountAccordion $ smartBorders $ Accordion
     grid = smartSpacing spacingAmount $ smartBorders $ Grid
     nmaster = 1 -- Number of windows in master pane
     ratio = 1/2 -- Proportion of screen occupied by master pane
@@ -105,6 +106,7 @@ myManageHook = composeAll
 main = do
   xmproc <- spawnPipe "/usr/bin/xmobar /home/romek/.xmonad/xmobarrc"
   spawn "thunderbird"
+  spawn "dropbox start"
   xmonad $ defaultConfig
     { modMask = mod4Mask
     , terminal = "urxvt"
@@ -114,7 +116,7 @@ main = do
     , focusFollowsMouse = False
     , logHook = dynamicLogWithPP xmobarPP
       { ppOutput = hPutStrLn xmproc
-      , ppTitle = xmobarColor titleForegroundColor titleBackgroundColor . shorten 150
+      , ppTitle = xmobarColor titleForegroundColor titleBackgroundColor . shorten 110
 	    , ppHiddenNoWindows = xmobarColor emptyForegroundColor emptyBackgroundColor
       , ppLayout = const ""
       , ppHidden = xmobarColor hiddenForegroundColor hiddenBackgroundColor
