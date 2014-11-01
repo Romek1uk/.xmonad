@@ -48,16 +48,15 @@ mailWorkspace = " 9:mail "
 spacingAmount = 15
 spacingAmountAccordion = 5
 
-myLayouts = onWorkspace mailWorkspace mailLayout $ tiled ||| full ||| accordion ||| grid 
+myLayouts = tiled ||| full ||| accordion 
   where
     tiled = smartSpacing spacingAmount $ smartBorders $ Tall nmaster delta ratio
     full = smartBorders $ Full
     accordion = smartSpacing spacingAmountAccordion $ smartBorders $ Accordion
-    grid = smartSpacing spacingAmount $ smartBorders $ Grid
+    -- grid = smartSpacing spacingAmount $ smartBorders $ Grid
     nmaster = 1 -- Number of windows in master pane
     ratio = 1/2 -- Proportion of screen occupied by master pane
     delta = 3/100 -- Percent of screen to increment by when resizing panes    
-    mailLayout = noBorders $ Full
 
 --------------------------------------------------------------------------------------------
 -- Keybindings                                                                            --
