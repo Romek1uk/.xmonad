@@ -39,7 +39,7 @@ titleBackgroundColor   = ""
 -------------------------------------------------------------------------------------------- 
 ---- Workspaces 						 				                                                      --
 -------------------------------------------------------------------------------------------- 
-myWorkspaces = map (wrap " " " ")[ "1:main","2:soc","3:dev","4:diss","5","6","7","8","9:mail"]
+myWorkspaces = map (wrap " " " ")[ "1:main","2","3:dev","4:diss","5","6","7","8:soc","9:mail"]
 mailWorkspace = " 9:mail "
 
 --------------------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ shiftAmount = 15 -- How much a window moves, in pxels
 myKeys =
     [((0, xK_Print), spawn "scrot ~/screenshots/%d-%m-%Y-%T-screenshot.png")
     ,((mod4Mask, xK_w), spawn "google-chrome-stable")
-    ,((mod4Mask, xK_p), spawn "dmenu_extended_run -nb black")
+    ,((mod4Mask, xK_p), spawn "dmenu_run -nb black")
     ,((mod4Mask, xK_b), sendMessage ToggleStruts)
     ,((0, xF86XK_MonBrightnessUp), spawn "xbacklight +20")
     ,((0, xF86XK_MonBrightnessDown), spawn "xbacklight -20")
