@@ -12,6 +12,7 @@ import XMonad.Layout.Accordion
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
+import XMonad.Util.Paste
 import XMonad.Util.Run
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.DynamicWorkspaces
@@ -87,6 +88,7 @@ myKeys =
     ,((mod4Mask, xK_Left), prevWS)
     ,((mod4Mask .|. shiftMask, xK_Right), shiftToNext >> nextWS)
     ,((mod4Mask .|. shiftMask, xK_Left), shiftToPrev >> prevWS)
+    ,((0, xK_Insert), pasteSelection)
     ]
 
 --------------------------------------------------------------------------------------------
