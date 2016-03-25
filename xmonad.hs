@@ -6,6 +6,7 @@ import XMonad.Prompt
 import XMonad.Layout.Spacing
 import XMonad.Layout.Grid
 import XMonad.Layout.NoBorders
+import XMonad.Layout.ThreeColumns
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Accordion
 import XMonad.Hooks.DynamicLog
@@ -23,13 +24,13 @@ import System.IO
 -- Colours                                                                                -
 --------------------------------------------------------------------------------------------
 -- Borders
-disabledBorderColor = "#284F51"
-enabledBorderColor  = "orange"
+disabledBorderColor = "#444444" -- "#284F51"
+enabledBorderColor  = "#FFB347"
 
 -- Xmobar
 currentForegroundColor = "black"
 currentBackgroundColor = enabledBorderColor 
-hiddenForegroundColor  = "orange"
+hiddenForegroundColor  = enabledBorderColor-- "#6666FF"
 hiddenBackgroundColor  = "black"
 emptyForegroundColor   = "#777777"
 emptyBackgroundColor   = ""
@@ -48,15 +49,15 @@ mailWorkspace = " 9:mail "
 spacingAmount = 15
 spacingAmountAccordion = 5
 
-myLayouts = tiled ||| full ||| accordion 
+myLayouts = tiled ||| full ||| threecol 
   where
     tiled = smartSpacing spacingAmount $ smartBorders $ Tall nmaster delta ratio
     full = smartBorders $ Full
-    accordion = smartSpacing spacingAmountAccordion $ smartBorders $ Accordion
+    threecol = smartSpacing spacingAmount $ smartBorders $ ThreeCol nmaster delta ratio
     -- grid = smartSpacing spacingAmount $ smartBorders $ Grid
     nmaster = 1 -- Number of windows in master pane
     ratio = 1/2 -- Proportion of screen occupied by master pane
-    delta = 3/100 -- Percent of screen to increment by when resizing panes    
+    delta = 3/100 -- Percent of screen to increment by when resizing panes   
 
 --------------------------------------------------------------------------------------------
 -- Keybindings                                                                            --

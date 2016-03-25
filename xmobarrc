@@ -89,7 +89,7 @@ Config {
                                        -- discharging status
                                        , "-o"	, "<left>%"
                                        -- AC "on" status
-                                       , "-O"	, "<fc=darkorange>Charging</fc>"
+                                       , "-O"	, "<fc=darkorange>Charging (<left>%)</fc>"
                                        -- charged status
                                        , "-i"	, "<fc=#00CC00>Charged</fc>"
                              ] 50
