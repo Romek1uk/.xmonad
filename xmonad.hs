@@ -26,11 +26,11 @@ import System.IO
 --------------------------------------------------------------------------------------------
 -- Borders
 disabledBorderColor = "#444444" -- "#284F51"
-enabledBorderColor  = "#FFB347"
+enabledBorderColor  = "#E2F7DE"
 
 -- Xmobar
 currentForegroundColor = "black"
-currentBackgroundColor = enabledBorderColor 
+currentBackgroundColor = enabledBorderColor
 hiddenForegroundColor  = enabledBorderColor-- "#6666FF"
 hiddenBackgroundColor  = "black"
 emptyForegroundColor   = "#777777"
@@ -38,9 +38,9 @@ emptyBackgroundColor   = ""
 titleForegroundColor   = "white" -- "#26C6C6"
 titleBackgroundColor   = ""
 
--------------------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------------------
 ---- Workspaces 						 				                                                      --
--------------------------------------------------------------------------------------------- 
+--------------------------------------------------------------------------------------------
 myWorkspaces = map (wrap " " " ")[ "1:main","2","3:dev","4:diss","5","6","7","8:soc","9:mail"]
 mailWorkspace = " 9:mail "
 
@@ -50,7 +50,7 @@ mailWorkspace = " 9:mail "
 spacingAmount = 15
 spacingAmountAccordion = 5
 
-myLayouts = tiled ||| full ||| threecol 
+myLayouts = tiled ||| full ||| threecol
   where
     tiled = smartSpacing spacingAmount $ smartBorders $ Tall nmaster delta ratio
     full = smartBorders $ Full
@@ -58,7 +58,7 @@ myLayouts = tiled ||| full ||| threecol
     -- grid = smartSpacing spacingAmount $ smartBorders $ Grid
     nmaster = 1 -- Number of windows in master pane
     ratio = 1/2 -- Proportion of screen occupied by master pane
-    delta = 3/100 -- Percent of screen to increment by when resizing panes   
+    delta = 3/100 -- Percent of screen to increment by when resizing panes
 
 --------------------------------------------------------------------------------------------
 -- Keybindings                                                                            --
@@ -82,7 +82,7 @@ myKeys =
     ,((mod4Mask .|. controlMask, xK_Down), withFocused (keysMoveWindow (0, shiftAmount)))
     ,((mod4Mask .|. controlMask, xK_Left), withFocused (keysMoveWindow (-shiftAmount, 0)))
     ,((mod4Mask .|. controlMask, xK_Right), withFocused (keysMoveWindow (shiftAmount, 0)))
-    
+
     -- Moving workspaces with left/right arrow keys
     ,((mod4Mask, xK_Right), nextWS)
     ,((mod4Mask, xK_Left), prevWS)
@@ -109,10 +109,12 @@ main = do
   xmproc <- spawnPipe "/usr/bin/xmobar /home/romek/.xmonad/xmobarrc"
   spawn "thunderbird"
   spawn "dropbox start"
+  spawn "twmnd"
+  spawn "udiskie -2 -s"
   xmonad $ defaultConfig
     { modMask = mod4Mask
     , terminal = "urxvt"
-    , borderWidth = 4 
+    , borderWidth = 4
     , normalBorderColor = disabledBorderColor
     , focusedBorderColor = enabledBorderColor
     , focusFollowsMouse = False
@@ -123,7 +125,7 @@ main = do
       , ppLayout = const ""
       , ppHidden = xmobarColor hiddenForegroundColor hiddenBackgroundColor
       , ppCurrent = xmobarColor currentForegroundColor currentBackgroundColor
-      } 
+      }
     , workspaces = myWorkspaces
     , layoutHook = avoidStruts $ myLayouts
     , manageHook = manageDocks <+> myManageHook  <+> manageHook defaultConfig
