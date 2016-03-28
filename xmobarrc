@@ -1,4 +1,4 @@
-Config { 
+Config {
 
    -- appearance
      font =         "xft:Inconsolata-g:size=11:bold:antialias=true"
@@ -32,13 +32,13 @@ Config {
    --   The --template option controls how the plugin is displayed. Text
    --   color can be set by enclosing in <fc></fc> tags. For more details
    --   see http://projects.haskell.org/xmobar/#system-monitor-plugins.
-   , commands = 
+   , commands =
 
         -- weather monitor
         [ Run Weather "EGLL" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
                              ] 36000
-                        
-        -- For inputs from xmonad                        
+
+        -- For inputs from xmonad
         , Run StdinReader
 
         -- network activity monitor (dynamic interface resolution)
@@ -67,7 +67,7 @@ Config {
                              , "--normal"   , "darkorange"
                              , "--high"     , "red"
                              ] 50
-                          
+
         -- memory usage monitor
         , Run Memory         [ "--template" ,"Mem: <usedratio>%"
                              , "--Low"      , "20"        -- units: %
@@ -94,11 +94,11 @@ Config {
                                        , "-i"	, "<fc=#00CC00>Charged</fc>"
                              ] 50
 
-        -- time and date indicator 
+        -- time and date indicator
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
         , Run Date           "<fc=grey>%a %e %b %Y</fc> <fc=white>%T</fc>" "date" 10
 
-        , Run Com "/home/romek/.xmonad/scripts/volume.sh" [] "volume" 1 
+        , Run Com "/home/romek/.xmonad/scripts/volume.sh" [] "volume" 1
 
         ]
    }
