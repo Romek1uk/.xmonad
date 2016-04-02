@@ -25,24 +25,27 @@ import System.IO
 -- Colours                                                                                -
 --------------------------------------------------------------------------------------------
 -- Borders
-disabledBorderColor = "#444444" -- "#284F51"
-enabledBorderColor  = "#E2F7DE"
+disabledBorderColor = "#444444"
+enabledBorderColor  = "#BDECB6"
 
 -- Xmobar
 currentForegroundColor = "black"
 currentBackgroundColor = enabledBorderColor
-hiddenForegroundColor  = enabledBorderColor-- "#6666FF"
+hiddenForegroundColor  = enabledBorderColor
 hiddenBackgroundColor  = "black"
-emptyForegroundColor   = "#777777"
+emptyForegroundColor   = "#444444"
 emptyBackgroundColor   = ""
-titleForegroundColor   = "white" -- "#26C6C6"
+titleForegroundColor   = "white"
 titleBackgroundColor   = ""
 
 --------------------------------------------------------------------------------------------
 ---- Workspaces 						 				                                                      --
 --------------------------------------------------------------------------------------------
-myWorkspaces = map (wrap " " " ")[ "1:main","2","3:dev","4:diss","5","6","7","8:soc","9:mail"]
-mailWorkspace = " 9:mail "
+
+formatWorkspace workspace = (wrap "  " "  ") workspace
+
+mailWorkspace = "9"
+myWorkspaces = map (formatWorkspace)["1","2","3","4","5","6","7","8",mailWorkspace]
 
 --------------------------------------------------------------------------------------------
 -- Layouts                                                                                --
@@ -63,7 +66,7 @@ myLayouts = tiled ||| full ||| threecol
 --------------------------------------------------------------------------------------------
 -- Keybindings                                                                            --
 --------------------------------------------------------------------------------------------
-shiftAmount = 15 -- How much a window moves, in pxels
+shiftAmount = 15 -- How much a window moves, in pixels
 
 myKeys =
     [((0, xK_Print), spawn "scrot ~/screenshots/%d-%m-%Y-%T-screenshot.png")
@@ -96,8 +99,7 @@ myKeys =
 --------------------------------------------------------------------------------------------
 myManageHook = composeAll
   [className =? "feh" --> doFloat
-  ,className =? "Thunderbird" --> doShift mailWorkspace
-  -- ,className =? "Vlc" --> doShift mediaWorkspace
+  ,className =? "Thunderbird" --> doShift (formatWorkspace mailWorkspace)
   ,isFullscreen --> doFullFloat
   ,isDialog --> doFloat
   ]
@@ -129,4 +131,5 @@ main = do
     , workspaces = myWorkspaces
     , layoutHook = avoidStruts $ myLayouts
     , manageHook = manageDocks <+> myManageHook  <+> manageHook defaultConfig
+    , handleEventHook = docksEventHook <+> handleEventHook defaultConfig
     } `additionalKeys` myKeys
